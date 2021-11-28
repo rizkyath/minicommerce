@@ -7,4 +7,5 @@ import java.util.List;
 public interface ItemRestService {
     List<Item> getAllItem();
     Item getItemById(Long id);
+    void deleteItem(Long id);
 }

@@ -23,4 +23,9 @@ public class ItemRestServiceImpl implements ItemRestService {
     public Item getItemById(Long id) {
         return itemDB.findById(id).get();
     }
+
+    @Override
+    public void deleteItem(Long id) {
+        itemDB.deleteById(id);        
+    }
 }
