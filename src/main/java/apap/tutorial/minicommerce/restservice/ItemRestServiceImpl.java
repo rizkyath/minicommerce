@@ -18,4 +18,9 @@ public class ItemRestServiceImpl implements ItemRestService {
     public List<Item> getAllItem() {
         return itemDB.findAll();
     }
+
+    @Override
+    public Item getItemById(Long id) {
+        return itemDB.findById(id).get();
+    }
 }
