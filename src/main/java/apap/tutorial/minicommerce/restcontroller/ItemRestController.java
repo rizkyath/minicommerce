@@ -45,10 +45,16 @@ public class ItemRestController {
     @GetMapping(value = "/item/{idItem}")
     private BaseResponse<Item> getItemById(@PathVariable("idItem") Long idItem) {
         BaseResponse<Item> response = new BaseResponse<>();
-        response.setStatus(200);
-        response.setMessage("success");
-        response.setResult(itemRestService.getItemById(idItem));
-
+        try {
+            Item item = itemRestService.getItemById(idItem);
+            response.setStatus(200);
+            response.setMessage("success");
+            response.setResult(item);
+        } catch (Exception e) {
+            response.setStatus(400);
+            response.setMessage(e.toString());
+            response.setResult(null);
+        }
         return response;
     }
 
@@ -87,8 +93,8 @@ public class ItemRestController {
         } else {
             try {
                 Item newItem = itemRestService.updateItem(item, id);
-                response.setStatus(201);
-                response.setMessage("created");
+                response.setStatus(200);
+                response.setMessage("updated");
                 response.setResult(newItem);
             } catch (Exception e) {
                 response.setStatus(400);
@@ -103,7 +109,7 @@ public class ItemRestController {
     private ResponseEntity<String> deleteItem(@PathVariable("idItem") Long idItem) {
         try {
             itemRestService.deleteItem(idItem);
-            return ResponseEntity.ok("Item with id  " + String.valueOf(idItem) + " Deleted!");
+            return ResponseEntity.ok("Item with id " + String.valueOf(idItem) + " Deleted!");
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Item with id " + String.valueOf(idItem) + " Not Found.");
