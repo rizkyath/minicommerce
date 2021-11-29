@@ -6,7 +6,7 @@ import apap.tutorial.minicommerce.rest.ItemDTO;
 import java.util.List;
 
 public interface ItemRestService {
-    List<Item> getAllItem();
+    List<Item> getAllItem(String title);
     Item getItemById(Long id);
     Item createItem(ItemDTO item);
     Item updateItem(ItemDTO item, Long id);

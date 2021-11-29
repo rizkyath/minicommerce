@@ -25,11 +25,11 @@ public class ItemRestController {
     private ItemRestService itemRestService;
 
     @GetMapping()
-    private BaseResponse<List<Item>> getAllItem() {
+    private BaseResponse<List<Item>> getAllItem(@RequestParam(value = "title", defaultValue = "") String title) {
         BaseResponse<List<Item>> response = new BaseResponse<>();
         response.setStatus(200);
         response.setMessage("success");
-        response.setResult(itemRestService.getAllItem());
+        response.setResult(itemRestService.getAllItem(title));
 
         return response;
     }

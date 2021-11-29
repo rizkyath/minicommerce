@@ -17,8 +17,11 @@ public class ItemRestServiceImpl implements ItemRestService {
     ItemDB itemDB;
 
     @Override
-    public List<Item> getAllItem() {
-        return itemDB.findAll();
+    public List<Item> getAllItem(String title) {
+        if (title.equals("")){
+            return itemDB.findAll();
+        }
+        return itemDB.findByFilterTitle(title);
     }
 
     @Override
