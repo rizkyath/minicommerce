@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Table(name = "item")
 @Entity
 public class Item {
@@ -33,15 +35,10 @@ public class Item {
     @Column(name = "category", nullable = false)
     private String category;
 
-    @NotNull
-    @Size(max = 255)
-    @Column(name = "image", nullable = false)
-    private String image;
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_rating", referencedColumnName = "id", nullable = false)
+    @OneToOne(mappedBy = "item", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Rating rating;
+    @JsonIgnore
+    private Cart cart;
 
     public Long getId() {
         return id;
@@ -83,19 +80,11 @@ public class Item {
         this.category = category;
     }
 
-    public String getImage() {
-        return image;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Rating getRating() {
-        return rating;
-    }
-
-    public void setRating(Rating rating) {
-        this.rating = rating;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

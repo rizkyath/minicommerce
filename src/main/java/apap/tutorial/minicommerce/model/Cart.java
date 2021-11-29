@@ -1,31 +1,25 @@
 package apap.tutorial.minicommerce.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-@Table(name = "rating")
+@Table(name = "cart")
 @Entity
-public class Rating {
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
 
-    @NotNull
-    @Column(name = "rate", nullable = false)
-    private Double rate;
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
 
-    @NotNull
-    @Column(name = "count", nullable = false)
-    private Integer count;
-
-    @OneToOne(mappedBy = "rating", fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_item", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     private Item item;
 
     public Long getId() {
@@ -36,20 +30,12 @@ public class Rating {
         this.id = id;
     }
 
-    public Double getRate() {
-        return rate;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setRate(Double rate) {
-        this.rate = rate;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public Item getItem() {

@@ -7,8 +7,6 @@ public class ItemDTO {
     public Double price;
     public String description;
     public String category;
-    public String image;
-    public RatingDTO rating;
 
     public Item convertToItem(){
         Item item = new Item();
@@ -16,7 +14,6 @@ public class ItemDTO {
         item.setPrice(price);
         item.setDescription(description);
         item.setCategory(category);
-        item.setImage(image);
         return item;
     }
 
@@ -25,7 +22,6 @@ public class ItemDTO {
         item.setPrice(price);
         item.setDescription(description);
         item.setCategory(category);
-        item.setImage(image);
         return item;
     }
     
