@@ -18,8 +18,8 @@ import java.text.ParseException;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/api/item")
-public class ItemRestController {
+@RequestMapping("/api/cart")
+public class CartRestController {
 
     @Autowired
     private ItemRestService itemRestService;

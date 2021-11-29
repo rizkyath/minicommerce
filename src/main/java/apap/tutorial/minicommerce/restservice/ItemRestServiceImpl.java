@@ -34,8 +34,6 @@ public class ItemRestServiceImpl implements ItemRestService {
     @Override
     public Item createItem(ItemDTO item) {
         Item newItem = item.convertToItem();
-        // Rating rating = ratingDB.save(item.rating.convertToRating());
-        // newItem.setRating(rating);
         return itemDB.save(newItem);
     }
 
@@ -43,11 +41,6 @@ public class ItemRestServiceImpl implements ItemRestService {
     public Item updateItem(ItemDTO itemDTO, Long id) {
         Item item = getItemById(id);
         item = itemDTO.convertToItem(item);
-
-        // Rating rating = item.getRating();
-        // rating = itemDTO.rating.convertToRating(rating);
-        // item.setRating(rating);
-        
         return itemDB.save(item);
     }
 }
