@@ -46,8 +46,13 @@ public class CartRestServiceImpl implements CartRestService {
     }
 
     @Override
-    public void deleteAllCartItem(Long id) {
+    public void deleteAllCartItem() {
         cartDB.deleteAll();
+    }
+
+    @Override
+    public void deleteCartItem(Long id) {
+        cartDB.deleteById(id);
     }
    
 }

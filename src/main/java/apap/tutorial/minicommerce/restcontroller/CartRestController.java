@@ -1,9 +1,9 @@
 package apap.tutorial.minicommerce.restcontroller;
 
-import apap.tutorial.minicommerce.model.Item;
+import apap.tutorial.minicommerce.model.Cart;
 import apap.tutorial.minicommerce.rest.BaseResponse;
-import apap.tutorial.minicommerce.rest.ItemDTO;
-import apap.tutorial.minicommerce.restservice.ItemRestService;
+import apap.tutorial.minicommerce.rest.CartDTO;
+import apap.tutorial.minicommerce.restservice.CartRestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,72 +22,32 @@ import java.text.ParseException;
 public class CartRestController {
 
     @Autowired
-    private ItemRestService itemRestService;
+    private CartRestService cartRestService;
 
     @GetMapping()
-    private BaseResponse<List<Item>> getAllItem() {
-        BaseResponse<List<Item>> response = new BaseResponse<>();
+    private BaseResponse<List<Cart>> getAllCartItem() {
+        BaseResponse<List<Cart>> response = new BaseResponse<>();
         response.setStatus(200);
         response.setMessage("success");
-        response.setResult(itemRestService.getAllItem());
+        response.setResult(cartRestService.getAllCartItems());
 
         return response;
     }
 
-    @GetMapping(value = "/{id}")
-    private BaseResponse<Item> getItemById(@PathVariable("id") Long idItem) {
-        BaseResponse<Item> response = new BaseResponse<>();
-        try {
-            Item item = itemRestService.getItemById(idItem);
-            response.setStatus(200);
-            response.setMessage("success");
-            response.setResult(item);
-        } catch (Exception e) {
-            response.setStatus(400);
-            response.setMessage(e.toString());
-            response.setResult(null);
-        }
-        return response;
-    }
-
-    @PostMapping(value = "")
-    private BaseResponse<Item> addItem(
-            @Valid @RequestBody ItemDTO item,
+    @PostMapping()
+    private BaseResponse<Cart> createUpdateCart(
+            @Valid @RequestBody CartDTO cart,
             BindingResult bindingResult) throws ParseException {
-        BaseResponse<Item> response = new BaseResponse<>();
+        BaseResponse<Cart> response = new BaseResponse<>();
         if (bindingResult.hasFieldErrors()) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Request Body has invalid type or missing field");
         } else {
             try {
-                Item newItem = itemRestService.createItem(item);
-                response.setStatus(201);
-                response.setMessage("created");
-                response.setResult(newItem);
-            } catch (Exception e) {
-                response.setStatus(400);
-                response.setMessage(e.toString());
-                response.setResult(null);
-            }
-            return response;
-        }
-    }
-
-    @PutMapping(value = "/{id}")
-    private BaseResponse<Item> updateItem(
-            @Valid @RequestBody ItemDTO item,
-            @PathVariable(value = "id") Long id,
-            BindingResult bindingResult) throws ParseException {
-        BaseResponse<Item> response = new BaseResponse<>();
-        if (bindingResult.hasFieldErrors()) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Request Body has invalid type or missing field");
-        } else {
-            try {
-                Item newItem = itemRestService.updateItem(item, id);
+                Cart newCart = cartRestService.createUpdateCartItem(cart);
                 response.setStatus(200);
-                response.setMessage("updated");
-                response.setResult(newItem);
+                response.setMessage("success");
+                response.setResult(newCart);
             } catch (Exception e) {
                 response.setStatus(400);
                 response.setMessage(e.toString());
@@ -98,13 +58,19 @@ public class CartRestController {
     }
 
     @DeleteMapping(value = "/{id}")
-    private ResponseEntity<String> deleteItem(@PathVariable("id") Long idItem) {
+    private ResponseEntity<String> deleteCart(@PathVariable("id") Long idCart) {
         try {
-            itemRestService.deleteItem(idItem);
-            return ResponseEntity.ok("Item with id " + String.valueOf(idItem) + " Deleted!");
+            cartRestService.deleteCartItem(idCart);
+            return ResponseEntity.ok("Cart item with id " + String.valueOf(idCart) + " deleted!");
         } catch (Exception e) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Item with id " + String.valueOf(idItem) + " Not Found.");
+                    HttpStatus.NOT_FOUND, "Cart item with id " + String.valueOf(idCart) + " not found.");
         }
+    }
+    
+    @DeleteMapping()
+    private ResponseEntity<String> deleteAllCartItem() {
+        cartRestService.deleteAllCartItem();
+        return ResponseEntity.ok("All cart items deleted!");
     }
 }

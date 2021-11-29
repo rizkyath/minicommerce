@@ -9,5 +9,6 @@ public interface CartRestService {
     List<Cart> getAllCartItems();
     Cart getCartItemById(Long id);
     Cart createUpdateCartItem(CartDTO cartDTO);
-    void deleteAllCartItem(Long id);
+    void deleteAllCartItem();
+    void deleteCartItem(Long id);
 }
