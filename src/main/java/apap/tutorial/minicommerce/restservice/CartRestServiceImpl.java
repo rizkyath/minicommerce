@@ -1,6 +1,7 @@
 package apap.tutorial.minicommerce.restservice;
 
 import apap.tutorial.minicommerce.model.Cart;
+import apap.tutorial.minicommerce.model.Item;
 import apap.tutorial.minicommerce.repository.CartDB;
 import apap.tutorial.minicommerce.repository.ItemDB;
 import apap.tutorial.minicommerce.rest.CartDTO;
@@ -33,20 +34,27 @@ public class CartRestServiceImpl implements CartRestService {
 
     @Override
     public Cart createUpdateCartItem(CartDTO cartDTO) {
-        Optional<Cart> cartOpt = cartDB.findByItem(cartDTO.idItem);
+        Item item = itemDB.findById(cartDTO.idItem).get();
+        Optional<Cart> cartOpt = cartDB.findByItem(item);
         if (cartOpt.isPresent()){
             Cart cart = cartOpt.get();
             cart.setQuantity(cart.getQuantity() + cartDTO.quantity);
             return cartDB.save(cart);
         }
         Cart cart = new Cart();
-        cart.setItem(itemDB.findById(cartDTO.idItem).get());
+        cart.setItem(item);
         cart.setQuantity(cartDTO.quantity);
         return cartDB.save(cart);
     }
 
     @Override
-    public void deleteAllCartItem() {
+    public void checkout() {
+        List<Cart> carts = cartDB.findAll();
+        for (Cart cart : carts) {
+            Item item = cart.getItem();
+            item.substractQuantity(cart.getQuantity());
+            itemDB.save(item);
+        }
         cartDB.deleteAll();
     }
 

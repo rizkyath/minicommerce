@@ -35,6 +35,9 @@ public class Item {
     @Column(name = "category", nullable = false)
     private String category;
 
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
+
     @OneToOne(mappedBy = "item", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
@@ -86,5 +89,17 @@ public class Item {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public void substractQuantity(Integer quantity) {
+        this.quantity = this.quantity - quantity;
     }
 }

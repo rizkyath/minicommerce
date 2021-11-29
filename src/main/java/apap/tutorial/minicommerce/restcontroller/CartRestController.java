@@ -68,9 +68,9 @@ public class CartRestController {
         }
     }
     
-    @DeleteMapping()
+    @GetMapping(value = "/checkout")
     private ResponseEntity<String> deleteAllCartItem() {
-        cartRestService.deleteAllCartItem();
-        return ResponseEntity.ok("All cart items deleted!");
+        cartRestService.checkout();
+        return ResponseEntity.ok("Checkout items success!");
     }
 }
