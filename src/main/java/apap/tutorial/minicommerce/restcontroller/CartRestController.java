@@ -57,17 +57,6 @@ public class CartRestController {
         }
     }
 
-    @DeleteMapping(value = "/{id}")
-    private ResponseEntity<String> deleteCart(@PathVariable("id") Long idCart) {
-        try {
-            cartRestService.deleteCartItem(idCart);
-            return ResponseEntity.ok("Cart item with id " + String.valueOf(idCart) + " deleted!");
-        } catch (Exception e) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Cart item with id " + String.valueOf(idCart) + " not found.");
-        }
-    }
-    
     @GetMapping(value = "/checkout")
     private ResponseEntity<String> deleteAllCartItem() {
         cartRestService.checkout();
