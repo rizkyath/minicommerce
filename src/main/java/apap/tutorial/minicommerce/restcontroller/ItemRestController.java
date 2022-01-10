@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.text.ParseException;
 
 @RestController
-// @CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/item")
 public class ItemRestController {
 
